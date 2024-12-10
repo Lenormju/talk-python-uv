@@ -1,0 +1,67 @@
+<!-- 
+Custom code for header and footer insertion.
+Credits: https://stackoverflow.com/a/37518822/736151
+-->
+
+<!-- 1. Define custom style for header and footer -->
+<style type="text/css">
+    /* 1. Style header/footer <div> so they are positioned as desired. */
+    #header-left {
+        position: absolute;
+        top: 3%;
+        left: 3%;
+    }
+    #header-right {
+        position: absolute;
+        top: 3%;
+        right: 3%;
+    }
+    #footer-left {
+        position: absolute;
+        bottom: 3%;
+        left: 3%;
+    }
+    #footer-right {
+        position: absolute;
+        bottom: 3%;
+        right: 3%;
+    }
+    .left {
+	float: left;
+	width: 45%;
+	max-height: 95%;
+    }
+    .right {
+	float: right;
+	width: 45%;
+	max-height: 95%;
+    }
+</style>
+
+<!-- 2. Create hidden header/footer <div> -->
+<div id="hidden" style="display:none;">
+    <div id="header">
+        <div id="footer-left">
+            <img
+                src="./theme/transparent.png"
+                alt="pas de logo"
+                height=10px
+                />
+        </div>
+    </div>
+</div>
+
+<!-- 3. Use JQuery to insert our stuff at Reveal.js `ready` event -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script type="text/javascript">
+    // On ready event, copy header/footer <div> into each `.slide-background` <div>
+    var header = $('#header').html();
+    if ( window.location.search.match( /print-pdf/gi ) ) {
+        Reveal.addEventListener( 'ready', function( event ) {
+            $('.slide-background').append(header);
+        });
+    }
+    else {
+        $('div.reveal').append(header);
+   }
+</script>

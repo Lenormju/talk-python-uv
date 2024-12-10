@@ -1,0 +1,35 @@
+# Reference : https://pandoc.org/MANUAL.html#default-files
+
+css: theme/theme.css # s'empile sur le thème Reveal.js, pour s'approcher du thème Kaizen
+
+include-in-header:
+  - theme/favicon.html
+
+include-after-body:
+  - theme/footer.html
+
+to: revealjs
+
+# Output filename shall be "public/index.html" for Gitlab Pages to serve it nicely
+output-file: public/index.html
+
+standalone: true
+# Self-contained is triggered in CI pipeline
+# self-contained: true
+
+slide-level: 2
+
+verbosity: INFO
+fail-if-warnings: true
+
+# These variables go to the renderer, here Reveal.js
+variables:
+  theme: simple
+  # dimensions shall be int’s for Reveal.js to parse them correctly
+  width: 1280
+  height: 768
+  margin: 0.1  # to ensure readability
+
+  title-slide-attributes:
+    data-background-image: theme/image_page_de_garde_kaizen.jpg
+    data-background-size: cover

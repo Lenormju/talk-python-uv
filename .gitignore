@@ -1,0 +1,9 @@
+public/
+plantuml-images/
+*~
+.vs
+/.idea/
+/venv/
+
+/generate_diagram_of_all_versions/release-cycle.svg
+/generate_diagram_of_all_versions/result.html

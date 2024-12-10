@@ -1,0 +1,87 @@
+/* ajustement du thème "simple" pour s'approcher du thème Kaizen */
+:root {
+	--r-main-font-size: 25px;
+	--r-heading-font: 'bebas neue';
+	--r-heading-text-transform: uppercase;
+}
+@font-face {
+	font-family: 'bebas neue';
+	src: url(BebasNeue-Regular.ttf);
+}
+
+.reveal .slides {
+	margin-top: 0;
+	margin-left: auto;
+	margin-right: auto;
+	margin-bottom: auto;
+}
+
+#title-slide p {
+	/* text under title, on front slide */
+	color: white;
+	text-shadow: 0 0 2px gray, 0 0 10px black;
+}
+
+.reveal h1 {
+	font-size: 2.3em;
+	padding-top: 0.2em;
+	padding-bottom: 0.2em;
+}
+.reveal h2 {
+	font-size: 1.8em;
+}
+.reveal h1,
+.reveal h2 {
+	/* on s'assure que le fond de titre est assez large -- à améliorer */
+	margin-left: -10%;
+	margin-right: -10%;
+	padding-left: 10%;
+	padding-right: 10%;
+	background: linear-gradient(to right, #beffb5, #19efef 77%);
+}
+
+.reveal h3 {
+	font-size: 1.4em;
+}
+
+/* classes spécifiques pour la présentation */
+.left {
+	float: left;
+	max-height: 90%;
+	width: 45%;
+	margin-top: auto;
+	margin-bottom: auto;
+}
+.right {
+	float: right;
+	max-height: 90%;
+	width: 45%;
+	margin-top: auto;
+	margin-bottom: auto;
+}
+.blank {
+	background: none !important;
+}
+.contact {
+	position: absolute;
+	top: 50vh;
+	margin-top: -8vh;
+	left: 50vw;
+	margin-left: -45vw;
+	width: 30vw;
+}
+.contact p:first-child {
+	text-transform: uppercase;
+	font-family: 'bebas neue';
+	font-size: 5vh;
+}
+.contact p {
+	color: white;
+	text-align: center;
+	font-size: 3vh;
+	line-height: 5vh;
+	margin: 0;
+}
+.reveal code {
+	background-color: #ececef;
+}
