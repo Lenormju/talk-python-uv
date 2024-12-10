@@ -10,8 +10,6 @@ slideNumber: true
 
 # Sondage
 
-. . .
-
 > * Qui a déjà utilisé uv ?
 > * Qui pense que l'outillage en Python c'est le bazar ?
 
@@ -31,7 +29,7 @@ slideNumber: true
 
 ## Différents besoins
 
-![Anna-Lena Popkes - unbiased evaluation of [...] tools](venn_diagram_updated_08_2024.png)
+![Anna-Lena Popkes - unbiased evaluation of [...] tools](venn_diagram_updated_08_2024.png) { style="height: 700;" }
 
 ## Le risque de l'Open-Source
 
@@ -49,18 +47,17 @@ slideNumber: true
 
 ## Ruff, un linter pour les gouverner tous
 
-![https://docs.astral.sh/ruff/](astral_ruff.png)
+![https://docs.astral.sh/ruff/](astral_ruff.png) { style="height: 700px;" }
 
 ## les bonnes personnes, et l'argent
 
-...
-
-> RipGrep
-> Bat
-> Hyperfine
-> Maturin
-> CPython core dev
-> ...
+> * RipGrep
+> * Bat
+> * Hyperfine
+> * Maturin
+> * CPython core dev
+> * ...
+> * "VC money"
 
 # uv
 
@@ -70,8 +67,6 @@ slideNumber: true
 
 ## Repartir sur de bonnes bases
 
-. . .
-
 > * `pyproject.toml` (pas de `.py` ni `.cfg` ni `.txt` ...)
 > * PEPs : adopter voire contribuer
 > * intégrations : Docker, Jupyter, pre-commit, GitHub Actions, Gitlab CI/CD, ...
@@ -79,8 +74,6 @@ slideNumber: true
 > * pas besoin de bootstrap grâce à Rust
 
 ## Mise en place
-
-. . .
 
 > 1. `requirements.txt`
 > 2. `pyproject.toml` (Poetry, ...)
@@ -91,8 +84,6 @@ slideNumber: true
 ou bien : `uv init` + `uv add`
 
 # Success stories
-
-. . .
 
 > * "l'essayer c'est l'adopter"
 > * vitesse (exécution, résolution des dépendances, réduction des downloads, caching, ...)
@@ -130,8 +121,13 @@ LinkedIn/julien-lenormand
 # CFP
 
 Vous faites du Python et vous ne connaissez pas encore UV ? Ce talk est fait pour vous !
+
 Vous ne faites principalement pas du Python mais ça vous arrive d'en croiser ? Ce talk est fait pour vous !
+
 Vous trouvez que Python c'est naze, et vous ne voulez pas y toucher même avec un bâton ? Ce talk est fait pour vous !
+
 En quelques mois, uv a révolutionné la façon d'utiliser Python, tout simplement. Et ça concerne tout le monde : Python est présent partout.
+
 Venez découvrir ce que c'est, pour quoi faire, pourquoi, par qui, comment, vers quoi, vers où.
+
 Promis, je serai ~~im~~partial !
