@@ -29,7 +29,7 @@ slideNumber: true
 
 ## Différents besoins
 
-![Anna-Lena Popkes - unbiased evaluation of [...] tools](venn_diagram_updated_08_2024.png) { style="height: 700;" }
+![Anna-Lena Popkes - unbiased evaluation of [...] tools](venn_diagram_updated_08_2024.png){ style="height: 700;" }
 
 ## Le risque de l'Open-Source
 
@@ -47,7 +47,7 @@ slideNumber: true
 
 ## Ruff, un linter pour les gouverner tous
 
-![https://docs.astral.sh/ruff/](astral_ruff.png) { style="height: 700px;" }
+![https://docs.astral.sh/ruff/](astral_ruff.png){ style="height: 700px;" }
 
 ## les bonnes personnes, et l'argent
 
@@ -63,7 +63,7 @@ slideNumber: true
 
 ## "Cargo pour python"
 
-![https://docs.astral.sh/uv/](astral_uv.png)
+![https://docs.astral.sh/uv/](astral_uv.png){ style="height: 700px;" }
 
 ## Repartir sur de bonnes bases
 
