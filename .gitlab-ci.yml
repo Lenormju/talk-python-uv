@@ -2,15 +2,9 @@ stages:
   - build
 
 .pages-build: &build
-  image: ojob/pandoc-plantuml
+  image: ghcr.io/astral-sh/uv:latest
   script:
-    - cd src/
-    - mkdir public/
-    - mkdir plantuml-images/
-    - pandoc --version
-    # convert to slideshow, applying theme-specific afterwards (so with higher priority)
-    - pandoc --filter pandoc-plantuml --defaults theme/pandoc-params.yml --self-contained *.md
-    - mv public/ ../
+    - ./build.bash
   artifacts:
     paths:
       - public

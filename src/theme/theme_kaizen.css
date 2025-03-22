@@ -1,0 +1,37 @@
+/* ajustement du thème "simple" pour s'approcher du thème Kaizen */
+:root {
+	--r-main-font-size: 25px;
+	--r-heading-font: 'bebas neue';
+	--r-heading-text-transform: uppercase;
+}
+@font-face {
+	font-family: 'bebas neue';
+	src: url(BebasNeue-Regular.ttf);
+}
+
+body {
+    background: url("favicon_kaizen.png");
+    background-size: 10vh;
+    background-position: left 1ch bottom 1ch;
+    background-repeat: no-repeat;
+    font-size: 3.2rem;
+}
+
+.reveal h1 {
+	font-size: 2.5em;
+	text-align: center;
+}
+.reveal h2 {
+	font-size: 1.6em;
+}
+.reveal h1,
+.reveal h2 {
+	/* on s'assure que le fond de titre est assez large -- à améliorer */
+	background: linear-gradient(to right, #beffb5, #19efef 77%);
+}
+
+/* classes spécifiques pour la présentation */
+
+.reveal code {
+	background-color: #ececef;
+}

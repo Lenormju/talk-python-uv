@@ -1,0 +1,12 @@
+index:
+  favicon: ./src/theme/favicon_kaizen.png
+  theme: src/theme/theme_kaizen.css
+  title: Slides
+slides:
+  favicon: ./src/theme/favicon_kaizen.png
+  theme: src/theme/theme_kaizen.css
+  highlight_theme: monokai
+revealjs:  # https://revealjs.com/config/
+  navigationMode: linear
+  slideNumber: true
+  transition: slide
