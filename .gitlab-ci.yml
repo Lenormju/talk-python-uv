@@ -2,7 +2,7 @@ stages:
   - build
 
 .pages-build: &build
-  image: ghcr.io/astral-sh/uv:latest
+  image: ghcr.io/astral-sh/uv:debian-slim
   script:
     - ./build.bash
   artifacts:
