@@ -14,20 +14,27 @@ body {
     background-size: 10vh;
     background-position: left 1ch bottom 1ch;
     background-repeat: no-repeat;
-    font-size: 3.2rem;
+
+    font-size: 2.6rem;
 }
 
 .reveal h1 {
-	font-size: 2.5em;
+	font-size: 2.2em;
 	text-align: center;
 }
 .reveal h2 {
-	font-size: 1.6em;
+	font-size: 1.7em;
 }
 .reveal h1,
 .reveal h2 {
 	/* on s'assure que le fond de titre est assez large -- à améliorer */
 	background: linear-gradient(to right, #beffb5, #19efef 77%);
+	margin-top: 0;
+	margin-bottom: 2em;
+}
+
+.reveal .slides li {
+	text-align: left;
 }
 
 /* classes spécifiques pour la présentation */

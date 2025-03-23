@@ -7,6 +7,8 @@ slides:
   theme: src/theme/theme_kaizen.css
   highlight_theme: monokai
 revealjs:  # https://revealjs.com/config/
+  height: 1080
+  width: 1920
   navigationMode: linear
   slideNumber: true
   transition: slide
