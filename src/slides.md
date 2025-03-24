@@ -28,11 +28,14 @@ redites par rapport à Décembre au début, mais version + clean et + complète
 
 ## A la recherche des bonnes pratiques
 
-TODO replay Francoise Conil
-TODO lien de ses slides
+Françoise Conil - Recherche des bonnes pratiques de packaging
+* [replay sur IndyMotion](https://indymotion.fr/w/r1L6xCLymfYC9BBxqVJ6Ze)
+* [slides](https://perso.liris.cnrs.fr/francoise.conil/recherche-des-bonnes-pratiques-de-packaging/#/title-slide)
 
-confondre le problème et la solutions
-détails d'implémentation
+Conclusions :
+* bien comprendre les primitives
+* ne pas confondre le problème avec la solutions
+* attention aux détails d'implémentation
 
 ---
 
@@ -106,11 +109,35 @@ et enfin uv
 
 ---
 
+## Résoudre les problèmes difficiles
+
+* localiser le bon interpréteur
+* identifier quelles sont les dépendances (primaires) requises
+* savoir quelles sont toutes les dépendances (transitives) requises
+* sans support multi-version d'un même package par Python
+* avec une [syntaxe compliquée pour les versions](https://packaging.python.org/en/latest/specifications/version-specifiers/)
+* à travers tous les environnements possibles (version de Python, archi matérielle, ...)
+* dont les métadonnées des packages peuvent être manquantes
+
+---
+
+## Comment ils ont fait ?
+
+* du tooling de test
+  * (packaging scenarios : https://github.com/astral-sh/packse)
+* des tests
+* Rust
+  * outils Rust ([pubgrub](https://crates.io/crates/pubgrub))
+
+---
+
 ## Performance
 
 * Rust
-* network optimisation
+* Rust low-level optimisation (memory layouts)
+* network optimisation (ZIP reading, ...)
 * caching
+* hardlinking
 * ...
 * cf seconde moitié du talk chez Jane Street : https://www.youtube.com/watch?v=gSKTfG1GXYQ
 
@@ -127,6 +154,7 @@ et enfin uv
 * lock file (reproductibilité dans le temps ou entre les personnes)
 * bien meilleur que les autres, et s'améliore encore 😅
 * `git clone` puis `uv run` et ça marche !
+* vient clé en main avec tout l'outillage qu'il faut
 
 ---
 
@@ -247,8 +275,21 @@ linting:
   * AWS CodeArtifact
   * JFrog's Artifactory
   * GitLab registry
+  * ... (PEP standards)
 
 ---
+
+## Intégration : Docker
+
+```Dockefile
+FROM python:3.12-slim-bookworm
+COPY --from=ghcr.io/astral-sh/uv:latest /uv /uvx /bin/
+WORKDIR /app
+COPY pyproject.toml uv.lock  /app/
+COPY src/  /app/src/
+RUN uv sync --frozen --no-dev --compile-bytecode
+ENTRYPOINT ["uv", "run", "--frozen", "--no-sync", "python", "-m", "my_app"]
+```
 
 ## Commandes
 
@@ -269,6 +310,30 @@ une contrainte de l'environnement (et de la conception) de Python
 ---
 
 ## uv run
+
+fait tout pour moi :
+* python bootstrap
+* lock
+* venv creation + sync
+
+---
+
+* `--script` pour les [scripts (Pep 723)](https://docs.astral.sh/uv/guides/scripts/)
+  ```python
+  # /// script
+  # dependencies = [
+  #   "requests<3",
+  #   "rich",
+  # ]
+  # ///
+  
+  import requests
+  from rich.pretty import pprint
+  ```
+* `--with ...` qui permet de faire la même chose manuellement :
+  `uv run --script --with requests --with rich ...`
+
+---
 
 shell shebang trick (Linux only) :
 
@@ -292,19 +357,204 @@ et on peut mettre ce qu'on veut avec des `with` :
 
 ---
 
-## Next steps
+## uv init
+
+* app / lib
+* vcs
+* bare
+* author-from
+* name
+* build-backend
+* python version
+
+---
+
+## Dependency group
+
+```
+[dependency-groups]
+dev = [
+    "ruff ~= 0.9.0",
+    "mypy ~= 1.14",
+    "pytest ~= 8.0",
+    "pytest-freezer ~= 0.4.9",
+    "coverage ~= 7.6"
+]
+```
+
+---
+
+## Workspaces
+
+Tout un monde dont Brieuc vous parlera bientôt !
+
+---
+
+## Solving dependencies
+
+```
+$ uv tool run --with 'mypy_extensions<0.2.0' black  # black==25.1.0 requires mypy_extensions>=0.4.3
+  × No solution found when resolving tool dependencies:
+  ╰─▶ Because all versions of black depend on mypy-extensions>=0.4.3 and you require black, we can conclude that you require mypy-extensions>=0.4.3.
+      And because you require mypy-extensions<0.2.0, we can conclude that your requirements are unsatisfiable.
+```
+
+---
+
+## uv tree
+
+```
+$ uv tree
+Resolved 90 packages in 4ms
+orchestrator v1.5.0
+├── aiohttp v3.11.11
+│   ├── aiohappyeyeballs v2.4.4
+│   ├── aiosignal v1.3.2
+│   │   └── frozenlist v1.5.0
+│   ├── attrs v24.3.0
+│   ├── frozenlist v1.5.0
+│   ├── multidict v6.1.0
+│   ├── propcache v0.2.1
+│   └── yarl v1.18.3
+│       ├── idna v3.10
+│       ├── multidict v6.1.0
+│       └── propcache v0.2.1
+├── apscheduler v3.11.0
+│   └── tzlocal v5.2
+├── fastapi[standard] v0.115.6
+│   ├── pydantic v2.10.3
+│   │   ├── annotated-types v0.7.0
+│   │   ├── pydantic-core v2.27.1
+│   │   │   └── typing-extensions v4.12.2
+│   │   └── typing-extensions v4.12.2
+│   ├── starlette v0.41.3
+│   │   └── anyio v4.7.0
+│   │       ├── idna v3.10
+│   │       └── sniffio v1.3.1
+│   ├── typing-extensions v4.12.2
+│   ├── email-validator v2.2.0 (extra: standard)
+│   │   ├── dnspython v2.7.0
+│   │   └── idna v3.10
+│   ├── fastapi-cli[standard] v0.0.5 (extra: standard)
+│   │   ├── typer v0.15.1
+│   │   │   ├── click v8.1.8
+│   │   │   ├── rich v12.6.0
+│   │   │   │   ├── commonmark v0.9.1
+│   │   │   │   └── pygments v2.18.0
+│   │   │   ├── shellingham v1.5.4
+│   │   │   └── typing-extensions v4.12.2
+│   │   ├── uvicorn[standard] v0.34.0
+│   │   │   ├── click v8.1.8
+│   │   │   ├── h11 v0.14.0
+│   │   │   ├── httptools v0.6.4 (extra: standard)
+│   │   │   ├── python-dotenv v1.0.1 (extra: standard)
+│   │   │   ├── pyyaml v6.0.2 (extra: standard)
+│   │   │   ├── uvloop v0.21.0 (extra: standard)
+│   │   │   ├── watchfiles v1.0.4 (extra: standard)
+│   │   │   │   └── anyio v4.7.0 (*)
+│   │   │   └── websockets v14.1 (extra: standard)
+│   │   └── uvicorn[standard] v0.34.0 (extra: standard) (*)
+│   ├── httpx v0.28.1 (extra: standard)
+│   │   ├── anyio v4.7.0 (*)
+│   │   ├── certifi v2024.12.14
+│   │   ├── httpcore v1.0.7
+│   │   │   ├── certifi v2024.12.14
+│   │   │   └── h11 v0.14.0
+│   │   └── idna v3.10
+│   ├── jinja2 v3.1.5 (extra: standard)
+│   │   └── markupsafe v3.0.2
+│   ├── python-multipart v0.0.20 (extra: standard)
+│   └── uvicorn[standard] v0.34.0 (extra: standard) (*)
+├── prometheus-fastapi-instrumentator v7.0.2
+│   ├── prometheus-client v0.21.1
+│   └── starlette v0.41.3 (*)
+├── pydantic-settings v2.7.0
+│   ├── pydantic v2.10.3 (*)
+│   └── python-dotenv v1.0.1
+├── xraydigital v2.3.0
+│   ├── rich v12.6.0 (*)
+│   └── structlog v22.3.0
+├── coverage v7.6.10 (group: dev)
+├── mypy v1.14.1 (group: dev)
+│   ├── mypy-extensions v1.0.0
+│   └── typing-extensions v4.12.2
+├── pytest v8.3.4 (group: dev)
+│   ├── iniconfig v2.0.0
+│   ├── packaging v24.2
+│   └── pluggy v1.5.0
+├── pytest-freezer v0.4.9 (group: dev)
+│   ├── freezegun v1.5.1
+│   │   └── python-dateutil v2.9.0.post0
+│   │       └── six v1.17.0
+│   └── pytest v8.3.4 (*)
+└── ruff v0.9.1 (group: dev)
+(*) Package tree already displayed
+```
+
+---
+
+```
+$ uv tree --outdated --universal
+```
+
+---
+
+## uv help (et docs)
+
+`uv help toto` est beaucoup plus complet que `uv toto --help`
+
+(équivalent aux docs en ligne)
+
+Mais beaucoup de clutter à cause de l'auto-locking
+
+---
+
+# Mes Rex
+
+* Schneider :
+  * lenteur de pip
+  * les workspaces auraient été super utiles !
+  * uv qui bootstrap Python était super pour avoir la bonne version
+* EDF Diego (Python 2.6 -> 3.8)
+  * comment manager un environnement cross-platform inter-versions ?
+* 123Moove
+  * aucun problème !
+* Thales
+  * 429 ? settings !
+  * export (cf issue github)
+
+---
+
+# Next steps
 
 * uv :
-  * 
+  * typechecking -> "red knot" / MyPy
+  * task runner ([issue #5903](https://github.com/astral-sh/uv/issues/5903)) -> `just`, `doit`, `make`, ...
+  * shell et shims
+  * gestion de la version du projet dans le `pyproject.toml` (bump)
+  * build self-contained pour Windows
+  * SBOM, licencing, vulnerabilities, ... (cf `cargo audit`)
+  * templates -> `cookiecutter`, ...
 * RedKnot : type checker par Astral
 * Pixi : project manager pas limité à Python (cf Conda)
+
+---
+
+# Conclusion
+
+uv rend Python moins pénible, donc n'hésitez pas
+
+sources : experts Kaizen, ButeCode, la communauté
 
 ---
 
 # Sources
 
 * https://www.saaspegasus.com/guides/uv-deep-dive/ (pas si deep)
-* https://www.youtube.com/watch?v=byynvdS_7ac
+* https://www.youtube.com/watch?v=byynvdS_7ac Pybites Podcast #175 - Charlie Marsh on Ruff, uv and designing fast + ergonomic Python tooling 
+* https://www.bitecode.dev/p/uv-tricks toujours un régal
+* https://www.youtube.com/watch?v=gSKTfG1GXYQ uv: An Extremely Fast Python Package Manager
+* https://pythonspeed.com/articles/uv-python-production/
 
 ---
 
