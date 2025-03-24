@@ -30,15 +30,15 @@ body {
 	/* on s'assure que le fond de titre est assez large -- à améliorer */
 	background: linear-gradient(to right, #beffb5, #19efef 77%);
 	margin-top: 0;
-	margin-bottom: 2em;
+	margin-bottom: 0.5em;
 }
 
-.reveal .slides li {
+.reveal .slides li, .reveal .code-wrapper {
 	text-align: left;
 }
 
 /* classes spécifiques pour la présentation */
 
-.reveal code {
-	background-color: #ececef;
-}
+/*.reveal code :not(.code-wrapper) {*/
+/*	background-color: #ececef;*/
+/*}*/
