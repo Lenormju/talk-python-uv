@@ -5,6 +5,7 @@ stages:
   image: ghcr.io/astral-sh/uv:debian-slim
   script:
     - ./build.bash
+    - cp -r archive/public/* public
   artifacts:
     paths:
       - public
