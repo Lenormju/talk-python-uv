@@ -2,15 +2,11 @@
 title: "uv : la révolution pour Python"
 ---
 
-# Préambule
+# uv : la révolution pour Python
 
-répétition pour Jeudi : Meetup Python
+# UV : rayonnez avec la nouvelle puissance de Python
 
-super cool, venez
-
-notes vos remarques constructives, ce qui n'est pas clair, ce qui mérite illustration, ...
-
-redites par rapport à Décembre au début, mais version + clean et + complète
+![illustration par Pierre-Loïc Bayart](uv_meetup.png)
 
 ---
 
@@ -102,7 +98,7 @@ et enfin uv
 > * `pyproject.toml` (pas de `.py` ni `.cfg` ni `.txt` ...)
 > * PEPs : adopter voire contribuer
 > * intégrations : Docker, Jupyter, pre-commit, GitHub Actions, Gitlab CI/CD, ...
-> * [python-build-standalone](https://github.com/indygreg/python-build-standalone)
+> * [python-build-standalone](https://github.com/indygreg/python-build-standalone) : télécharger et ça marche
 > * pas besoin de bootstrap grâce à Rust
 > * *second-mover advantage* / *standing on the shoulders of giants*
 > * commandes de haut niveau, orientées résultat
@@ -123,9 +119,9 @@ et enfin uv
 
 ## Comment ils ont fait ?
 
+* des tests
 * du tooling de test
   * (packaging scenarios : https://github.com/astral-sh/packse)
-* des tests
 * Rust
   * outils Rust ([pubgrub](https://crates.io/crates/pubgrub))
 
@@ -181,12 +177,26 @@ Après :
 
 ---
 
+## Concepts
+
+**DEMO** !!!
+
+* `pyproject.toml` : dépendances primaires
+* `uv.lock` : dépendances transitives + résolution
+* `.venv` : automatiquement peuplé
+* activation du `venv` : automatique
+
+Commandes : `init` --> `add` --> (`lock` + `venv` + `sync`) --> `run`
+
+---
+
 # Migration
 
 * [installation](https://docs.astral.sh/uv/getting-started/installation/) : curl, PyPI, Cargo, Homebrew, WinGet, Docker, ...
 * `pyproject.toml` :
   * https://github.com/stvnksslr/uv-migrator
   * https://github.com/mkniewallner/migrate-to-uv
+* `uv tool run migrate-to-uv` 😋
 
 ---
 
@@ -203,6 +213,7 @@ Situation :
 
 Problème :
 * les install échouent souvent car Pip cherche sur le "mauvais" index
+* vulnérable à des attaques de supply chain : ([exemple de *dependency confusion*](https://medium.com/@alex.birsan/dependency-confusion-4a5d60fec610))
 
 Solution :
 * ???
@@ -275,7 +286,7 @@ linting:
   * AWS CodeArtifact
   * JFrog's Artifactory
   * GitLab registry
-  * ... (PEP standards)
+  * ... (PEP standards, différences/limitations)
 
 ---
 
@@ -291,7 +302,13 @@ RUN uv sync --frozen --no-dev --compile-bytecode
 ENTRYPOINT ["uv", "run", "--frozen", "--no-sync", "python", "-m", "my_app"]
 ```
 
-## Commandes
+Sur [ghcr.io](https://github.com/astral-sh/uv/pkgs/container/uv) : `alpine:3.20`, `debian:bookworm-slim`, `buildpack-deps:bookworm`, `python3.x-alpine`, `python3.x-bookworm`, `python3.x-slim-bookworm`
+
+[Using uv in Docker](https://docs.astral.sh/uv/guides/integration/docker/)
+
+---
+
+# Commandes
 
 ---
 
@@ -318,7 +335,7 @@ fait tout pour moi :
 
 ---
 
-* `--script` pour les [scripts (Pep 723)](https://docs.astral.sh/uv/guides/scripts/)
+* `--script` pour les [scripts (PEP 723)](https://docs.astral.sh/uv/guides/scripts/)
   ```python
   # /// script
   # dependencies = [
@@ -331,7 +348,13 @@ fait tout pour moi :
   from rich.pretty import pprint
   ```
 * `--with ...` qui permet de faire la même chose manuellement :
+
   `uv run --script --with requests --with rich ...`
+
+  ```python
+  import requests
+  from rich.pretty import pprint
+  ```
 
 ---
 
@@ -354,6 +377,16 @@ marche pour tout package Python qui déclare des *entrypoints* :
 et on peut mettre ce qu'on veut avec des `with` :
 
 `uv tool run --with requests python -c 'import requests; print(requests)'`
+
+---
+
+## uv tool
+
+* run
+* install / uninstall
+* upgrade
+* list
+* update-shell / dir (--bin)
 
 ---
 
@@ -495,7 +528,97 @@ orchestrator v1.5.0
 
 ```
 $ uv tree --outdated --universal
+Resolved 88 packages in 19ms
+orchestrator v1.5.0
+├── aiohttp v3.11.11 (latest: v3.11.14)
+│   ├── aiohappyeyeballs v2.4.4 (latest: v2.6.1)
+│   ├── aiosignal v1.3.2
+│   │   └── frozenlist v1.5.0
+│   ├── attrs v24.3.0 (latest: v25.3.0)
+│   ├── frozenlist v1.5.0
+│   ├── multidict v6.1.0 (latest: v6.2.0)
+│   ├── propcache v0.2.1 (latest: v0.3.0)
+│   └── yarl v1.18.3
+│       ├── idna v3.10
+│       ├── multidict v6.1.0
+│       └── propcache v0.2.1
+├── apscheduler v3.11.0
+│   └── tzlocal v5.2 (latest: v5.3.1)
+│       └── tzdata v2024.2 (latest: v2025.2)
+├── fastapi[standard] v0.115.6 (latest: v0.115.12)
+│   ├── pydantic v2.10.3 (latest: v2.10.6)
+│   │   ├── annotated-types v0.7.0
+│   │   ├── pydantic-core v2.27.1 (latest: v2.32.0)
+│   │   │   └── typing-extensions v4.12.2
+│   │   └── typing-extensions v4.12.2
+│   ├── starlette v0.41.3 (latest: v0.46.1)
+│   │   └── anyio v4.7.0 (latest: v4.9.0)
+│   │       ├── idna v3.10
+│   │       ├── sniffio v1.3.1
+│   │       └── typing-extensions v4.12.2
+│   ├── typing-extensions v4.12.2
+│   ├── email-validator v2.2.0 (extra: standard)
+│   │   ├── dnspython v2.7.0
+│   │   └── idna v3.10
+│   ├── fastapi-cli[standard] v0.0.5 (extra: standard) (latest: v0.0.7)
+│   │   ├── typer v0.15.1 (latest: v0.15.2)
+│   │   │   ├── click v8.1.8
+│   │   │   │   └── colorama v0.4.6
+│   │   │   ├── rich v12.6.0 (latest: v13.9.4)
+│   │   │   │   ├── commonmark v0.9.1
+│   │   │   │   └── pygments v2.18.0 (latest: v2.19.1)
+│   │   │   ├── shellingham v1.5.4
+│   │   │   └── typing-extensions v4.12.2
+│   │   ├── uvicorn[standard] v0.34.0
+│   │   │   ├── click v8.1.8 (*)
+│   │   │   ├── h11 v0.14.0
+│   │   │   ├── colorama v0.4.6 (extra: standard)
+│   │   │   ├── httptools v0.6.4 (extra: standard)
+│   │   │   ├── python-dotenv v1.0.1 (extra: standard)
+│   │   │   ├── pyyaml v6.0.2 (extra: standard)
+│   │   │   ├── uvloop v0.21.0 (extra: standard)
+│   │   │   ├── watchfiles v1.0.4 (extra: standard)
+│   │   │   │   └── anyio v4.7.0 (*)
+│   │   │   └── websockets v14.1 (extra: standard) (latest: v15.0.1)
+│   │   └── uvicorn[standard] v0.34.0 (extra: standard) (*)
+│   ├── httpx v0.28.1 (extra: standard)
+│   │   ├── anyio v4.7.0 (*)
+│   │   ├── certifi v2024.12.14 (latest: v2025.1.31)
+│   │   ├── httpcore v1.0.7
+│   │   │   ├── certifi v2024.12.14
+│   │   │   └── h11 v0.14.0
+│   │   └── idna v3.10
+│   ├── jinja2 v3.1.5 (extra: standard) (latest: v3.1.6)
+│   │   └── markupsafe v3.0.2
+│   ├── python-multipart v0.0.20 (extra: standard)
+│   └── uvicorn[standard] v0.34.0 (extra: standard) (*)
+├── prometheus-fastapi-instrumentator v7.0.2 (latest: v7.1.0)
+│   ├── prometheus-client v0.21.1
+│   └── starlette v0.41.3 (*)
+├── pydantic-settings v2.7.0 (latest: v2.8.1)
+│   ├── pydantic v2.10.3 (*)
+│   └── python-dotenv v1.0.1
+├── coverage v7.6.10 (group: dev) (latest: v7.7.1)
+├── mypy v1.14.1 (group: dev) (latest: v1.15.0)
+│   ├── mypy-extensions v1.0.0
+│   └── typing-extensions v4.12.2
+├── pytest v8.3.4 (group: dev) (latest: v8.3.5)
+│   ├── colorama v0.4.6
+│   ├── iniconfig v2.0.0 (latest: v2.1.0)
+│   ├── packaging v24.2
+│   └── pluggy v1.5.0
+├── pytest-freezer v0.4.9 (group: dev)
+│   ├── freezegun v1.5.1
+│   │   └── python-dateutil v2.9.0.post0
+│   │       └── six v1.17.0
+│   └── pytest v8.3.4 (*)
+└── ruff v0.9.1 (group: dev) (latest: v0.11.2)
+(*) Package tree already displayed
 ```
+
+---
+
+## uv build + publish
 
 ---
 
@@ -509,17 +632,31 @@ Mais beaucoup de clutter à cause de l'auto-locking
 
 ---
 
+## uv cache
+
+* clean
+* prune
+
+---
+
+## uv self
+
+* update (si pas installé via un manager)
+
+---
+
 # Mes Rex
 
-* Schneider :
+* Grand équipementier pour le secteur de l'énergie :
   * lenteur de pip
   * les workspaces auraient été super utiles !
   * uv qui bootstrap Python était super pour avoir la bonne version
-* EDF Diego (Python 2.6 -> 3.8)
+* Grand acteur de la production d'électricité hydraulique :
+  * Python 2.6 -> 3.8
   * comment manager un environnement cross-platform inter-versions ?
-* 123Moove
+* Startup de la réduction des émissions de CO2 du transport routier
   * aucun problème !
-* Thales
+* Industriel de la défense
   * 429 ? settings !
   * export (cf issue github)
 
@@ -527,16 +664,15 @@ Mais beaucoup de clutter à cause de l'auto-locking
 
 # Next steps
 
-* uv :
-  * typechecking -> "red knot" / MyPy
-  * task runner ([issue #5903](https://github.com/astral-sh/uv/issues/5903)) -> `just`, `doit`, `make`, ...
-  * shell et shims
-  * gestion de la version du projet dans le `pyproject.toml` (bump)
-  * build self-contained pour Windows
-  * SBOM, licencing, vulnerabilities, ... (cf `cargo audit`)
-  * templates -> `cookiecutter`, ...
-* RedKnot : type checker par Astral
-* Pixi : project manager pas limité à Python (cf Conda)
+* typechecking -> "red knot" / MyPy
+* task runner ([issue #5903](https://github.com/astral-sh/uv/issues/5903)) -> `just`, `doit`, `make`, ...
+* shell et shims
+* gestion de la version du projet dans le `pyproject.toml` (bump)
+* build backend -> en cours, dans l'attente `hatchling` ou autre (`setuptools`)
+* build self-contained pour Windows
+* SBOM, licencing, vulnerabilities, ... (cf `cargo audit`)
+* templates -> `cookiecutter`, ...
+* packages non-Python -> Conda, Pixi, ...
 
 ---
 
@@ -544,7 +680,7 @@ Mais beaucoup de clutter à cause de l'auto-locking
 
 uv rend Python moins pénible, donc n'hésitez pas
 
-sources : experts Kaizen, ButeCode, la communauté
+sources : experts Kaizen, BiteCode, la communauté
 
 ---
 
