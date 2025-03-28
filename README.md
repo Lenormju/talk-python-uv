@@ -1,6 +1,6 @@
 # uv, la révolution pour Python
 
-Slides hébergées sur la Forge :
+Slides hébergées sur GitHub :
 
-* [main](https://uv-la-revolution-pour-python-b02154.pages.forge.kaizen-solutions.net/index.html)
-* [v1](https://uv-la-revolution-pour-python-b02154.pages.forge.kaizen-solutions.net/v1.html)
+* [v2 (main)](https://lenormju.github.io/talk-python-uv/index.html)
+* [v1](https://lenormju.github.io/talk-python-uv/v1.html)
