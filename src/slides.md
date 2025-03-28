@@ -20,6 +20,8 @@ title: "uv : la révolution pour Python"
 
 ![Anna-Lena Popkes - unbiased evaluation of [...] tools](venn_diagram_updated_08_2024.png)
 
+[Anna-Lena Popkes - unbiased evaluation of [...] tools](https://alpopkes.com/posts/python/packaging_tools/)
+
 ---
 
 ## A la recherche des bonnes pratiques
@@ -419,7 +421,7 @@ dev = [
 
 ## Workspaces
 
-Tout un monde dont Brieuc vous parlera bientôt !
+TODO dans un autre talk !
 
 ---
 
@@ -613,6 +615,124 @@ orchestrator v1.5.0
 │   │       └── six v1.17.0
 │   └── pytest v8.3.4 (*)
 └── ruff v0.9.1 (group: dev) (latest: v0.11.2)
+(*) Package tree already displayed
+```
+
+---
+
+```
+$ uv tree --invert
+Resolved 88 packages in 11ms
+aiohappyeyeballs v2.4.4
+└── aiohttp v3.11.11
+    └── orchestrator v1.5.0
+annotated-types v0.7.0
+└── pydantic v2.10.3
+    ├── fastapi v0.115.6
+    │   └── orchestrator[standard] v1.5.0
+    └── pydantic-settings v2.7.0
+        └── orchestrator v1.5.0
+attrs v24.3.0
+└── aiohttp v3.11.11 (*)
+certifi v2024.12.14
+├── httpcore v1.0.7
+│   └── httpx v0.28.1
+│       └── fastapi v0.115.6 (extra: standard) (*)
+└── httpx v0.28.1 (*)
+click v8.1.8
+├── typer v0.15.1
+│   └── fastapi-cli v0.0.5
+│       └── fastapi[standard] v0.115.6 (extra: standard) (*)
+└── uvicorn v0.34.0
+    ├── fastapi-cli[standard] v0.0.5 (*)
+    ├── fastapi[standard] v0.115.6 (extra: standard) (*)
+    └── fastapi-cli[standard] v0.0.5 (extra: standard) (*)
+commonmark v0.9.1
+└── rich v12.6.0
+    └── typer v0.15.1 (*)
+coverage v7.6.10
+└── orchestrator v1.5.0 (group: dev)
+dnspython v2.7.0
+└── email-validator v2.2.0
+    └── fastapi v0.115.6 (extra: standard) (*)
+frozenlist v1.5.0
+├── aiohttp v3.11.11 (*)
+└── aiosignal v1.3.2
+    └── aiohttp v3.11.11 (*)
+h11 v0.14.0
+├── httpcore v1.0.7 (*)
+└── uvicorn v0.34.0 (*)
+httptools v0.6.4
+└── uvicorn v0.34.0 (extra: standard) (*)
+idna v3.10
+├── anyio v4.7.0
+│   ├── httpx v0.28.1 (*)
+│   ├── starlette v0.41.3
+│   │   ├── fastapi v0.115.6 (*)
+│   │   └── prometheus-fastapi-instrumentator v7.0.2
+│   │       └── orchestrator v1.5.0
+│   └── watchfiles v1.0.4
+│       └── uvicorn v0.34.0 (extra: standard) (*)
+├── email-validator v2.2.0 (*)
+├── httpx v0.28.1 (*)
+└── yarl v1.18.3
+    └── aiohttp v3.11.11 (*)
+iniconfig v2.0.0
+└── pytest v8.3.4
+    ├── pytest-freezer v0.4.9
+    │   └── orchestrator v1.5.0 (group: dev)
+    └── orchestrator v1.5.0 (group: dev)
+markupsafe v3.0.2
+└── jinja2 v3.1.5
+    └── fastapi v0.115.6 (extra: standard) (*)
+multidict v6.1.0
+├── aiohttp v3.11.11 (*)
+└── yarl v1.18.3 (*)
+mypy-extensions v1.0.0
+└── mypy v1.14.1
+    └── orchestrator v1.5.0 (group: dev)
+packaging v24.2
+└── pytest v8.3.4 (*)
+pluggy v1.5.0
+└── pytest v8.3.4 (*)
+prometheus-client v0.21.1
+└── prometheus-fastapi-instrumentator v7.0.2 (*)
+propcache v0.2.1
+├── aiohttp v3.11.11 (*)
+└── yarl v1.18.3 (*)
+pygments v2.18.0
+└── rich v12.6.0 (*)
+python-dotenv v1.0.1
+├── pydantic-settings v2.7.0 (*)
+└── uvicorn v0.34.0 (extra: standard) (*)
+python-multipart v0.0.20
+└── fastapi v0.115.6 (extra: standard) (*)
+pyyaml v6.0.2
+└── uvicorn v0.34.0 (extra: standard) (*)
+ruff v0.9.1
+└── orchestrator v1.5.0 (group: dev)
+shellingham v1.5.4
+└── typer v0.15.1 (*)
+six v1.17.0
+└── python-dateutil v2.9.0.post0
+    └── freezegun v1.5.1
+        └── pytest-freezer v0.4.9 (*)
+sniffio v1.3.1
+└── anyio v4.7.0 (*)
+typing-extensions v4.12.2
+├── fastapi v0.115.6 (*)
+├── mypy v1.14.1 (*)
+├── pydantic v2.10.3 (*)
+├── pydantic-core v2.27.1
+│   └── pydantic v2.10.3 (*)
+└── typer v0.15.1 (*)
+tzlocal v5.2
+└── apscheduler v3.11.0
+    └── orchestrator v1.5.0
+uvloop v0.21.0
+└── uvicorn v0.34.0 (extra: standard) (*)
+websockets v14.1
+└── uvicorn v0.34.0 (extra: standard) (*)
 (*) Package tree already displayed
 ```
 
